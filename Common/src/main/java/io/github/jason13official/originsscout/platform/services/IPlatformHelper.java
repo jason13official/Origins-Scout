@@ -1,4 +1,4 @@
-package io.github.jason13official.origins_scout.platform.services;
+package io.github.jason13official.originsscout.platform.services;
 
 public interface IPlatformHelper {
 

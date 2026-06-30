@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "origins_scout",
+  "id": "originsscout",
   "version": "${version}",
   "name": "Origins Scout",
   "description": "There's levels to this shi*...",
@@ -12,15 +12,15 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "All Rights Reserved",
-  "icon": "origins_scout.png",
+  "icon": "originsscout.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.jason13official.origins_scout.OriginsScoutFabric"
+      "io.github.jason13official.originsscout.OriginsScoutFabric"
     ]
   },
   "mixins": [
-    "origins_scout.mixins.json"
+    "originsscout.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14",

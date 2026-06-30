@@ -16,7 +16,7 @@ license="All Rights Reserved"
 
 [[mods]] #mandatory
     # The modid of the mod
-    modId="origins_scout" #mandatory
+    modId="originsscout" #mandatory
     # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
     # ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
     # see the associated build.gradle script for how to populate this completely automatically during a build
@@ -28,7 +28,7 @@ license="All Rights Reserved"
     # A URL for the "homepage" for this mod, displayed in the mod UI
     #displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
     # A file name (in the root of the mod JAR) containing a logo for display
-    logoFile="origins_scout.png" #optional
+    logoFile="originsscout.png" #optional
     # A text field displayed in the mod UI
     credits="Thanks for this example mod goes to Java" #optional
     # A text field displayed in the mod UI
@@ -39,7 +39,7 @@ license="All Rights Reserved"
     '''
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.origins_scout]] #optional
+[[dependencies.originsscout]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -52,7 +52,7 @@ license="All Rights Reserved"
     side="BOTH"
 
 # Here's another dependency
-[[dependencies.origins_scout]]
+[[dependencies.originsscout]]
     modId="minecraft"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
@@ -61,7 +61,7 @@ license="All Rights Reserved"
     side="BOTH"
 
 # Require origins (forge port)
-[[dependencies.origins_scout]]
+[[dependencies.originsscout]]
     modId="origins"
     mandatory=true
     versionRange="[0,)"

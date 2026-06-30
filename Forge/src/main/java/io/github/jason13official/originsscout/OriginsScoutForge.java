@@ -1,4 +1,4 @@
-package io.github.jason13official.origins_scout;
+package io.github.jason13official.originsscout;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;

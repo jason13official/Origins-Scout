@@ -1,7 +1,7 @@
-package io.github.jason13official.origins_scout.mixin;
+package io.github.jason13official.originsscout.mixin;
 
-import io.github.jason13official.origins_scout.Constants;
-import io.github.jason13official.origins_scout.platform.Services;
+import io.github.jason13official.originsscout.Constants;
+import io.github.jason13official.originsscout.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;
