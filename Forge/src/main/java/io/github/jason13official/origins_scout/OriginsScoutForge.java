@@ -1,13 +1,13 @@
-package com.example.examplemod;
+package io.github.jason13official.origins_scout;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod(Constants.MOD_ID)
-public class ExampleMod {
+public class OriginsScoutForge {
     
-    public ExampleMod() {
+    public OriginsScoutForge() {
     
         // This method is invoked by the Forge mod loader when it is ready
         // to load your mod. You can access Forge and Common code in this
@@ -15,7 +15,7 @@ public class ExampleMod {
     
         // Use Forge to bootstrap the Common mod.
         Constants.LOG.info("Hello Forge world!");
-        CommonClass.init();
+        OriginsScout.init();
     
         // Some code like events require special initialization from the
         // loader specific code.
@@ -28,6 +28,6 @@ public class ExampleMod {
     // the Common listener.
     private void onItemTooltip(ItemTooltipEvent event) {
         
-        CommonClass.onItemTooltip(event.getItemStack(), event.getFlags(), event.getToolTip());
+        OriginsScout.onItemTooltip(event.getItemStack(), event.getFlags(), event.getToolTip());
     }
 }

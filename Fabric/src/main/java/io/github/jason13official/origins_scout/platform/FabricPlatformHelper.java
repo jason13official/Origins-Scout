@@ -1,6 +1,6 @@
-package com.example.examplemod.platform;
+package io.github.jason13official.origins_scout.platform;
 
-import com.example.examplemod.platform.services.IPlatformHelper;
+import io.github.jason13official.origins_scout.platform.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricPlatformHelper implements IPlatformHelper {

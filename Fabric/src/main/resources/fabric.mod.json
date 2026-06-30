@@ -19,11 +19,11 @@
     "environment": "*",
     "entrypoints": {
       "main": [
-        "com.example.examplemod.ExampleMod"
+        "io.github.jason13official.origins_scout.OriginsScoutFabric"
       ]
     },
     "mixins": [
-      "modid.mixins.json"
+      "origins_scout.mixins.json"
     ],
   
     "depends": {

@@ -1,6 +1,6 @@
-package com.example.examplemod.mixin;
+package io.github.jason13official.origins_scout.mixin;
 
-import com.example.examplemod.Constants;
+import io.github.jason13official.origins_scout.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import org.spongepowered.asm.mixin.Mixin;

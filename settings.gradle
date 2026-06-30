@@ -16,5 +16,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = '1.19.2'
+rootProject.name = 'Origins-Scout'
 include("Common", "Fabric", "Forge")

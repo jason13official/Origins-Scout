@@ -1,6 +1,6 @@
-package com.example.examplemod;
+package io.github.jason13official.origins_scout;
 
-import com.example.examplemod.platform.Services;
+import io.github.jason13official.origins_scout.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
@@ -10,7 +10,7 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class CommonClass {
+public class OriginsScout {
 
     // This method serves as an initialization hook for the mod. The vanilla
     // game has no mechanism to load tooltip listeners so this must be
