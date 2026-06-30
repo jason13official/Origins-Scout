@@ -6,7 +6,7 @@
     "mixins": [
     ],
     "client": [
-      "ExampleMixin"
+      "FabricTitleScreenMixin"
     ],
     "injectors": {
       "defaultRequire": 1

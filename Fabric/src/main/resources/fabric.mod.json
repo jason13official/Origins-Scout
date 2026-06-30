@@ -1,39 +1,35 @@
 {
-    "schemaVersion": 1,
-    "id": "modid",
-    "version": "${version}",
-  
-    "name": "Example Mod",
-    "description": "This is an example description! Tell everyone what your mod is about!",
-    "authors": [
-      "Me!"
-    ],
-    "contact": {
-      "homepage": "https://fabricmc.net/",
-      "sources": "https://github.com/FabricMC/fabric-example-mod"
-    },
-  
-    "license": "CC0-1.0",
-    "icon": "assets/modid/icon.png",
-  
-    "environment": "*",
-    "entrypoints": {
-      "main": [
-        "io.github.jason13official.origins_scout.OriginsScoutFabric"
-      ]
-    },
-    "mixins": [
-      "origins_scout.mixins.json"
-    ],
-  
-    "depends": {
-      "fabricloader": ">=0.14",
-      "fabric": "*",
-      "minecraft": "1.19.x",
-      "java": ">=17"
-    },
-    "suggests": {
-      "another-mod": "*"
-    }
+  "schemaVersion": 1,
+  "id": "origins_scout",
+  "version": "${version}",
+  "name": "Origins Scout",
+  "description": "There's levels to this shi*...",
+  "authors": [
+    "Jason13"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "All Rights Reserved",
+  "icon": "origins_scout.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.jason13official.origins_scout.OriginsScoutFabric"
+    ]
+  },
+  "mixins": [
+    "origins_scout.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14",
+    "fabric": "*",
+    "minecraft": "1.19.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
   }
+}
   
