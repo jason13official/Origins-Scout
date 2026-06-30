@@ -70,9 +70,20 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
+repositories {
+    maven {
+        url "https://cursemaven.com"
+    }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":Common")
+
+    implementation fg.deobf("curse.maven:figura-901503:6204461")
+    implementation fg.deobf("curse.maven:pehkui-319596:5393090")
+    implementation fg.deobf("curse.maven:caelus-308989:3929284")
+    implementation fg.deobf("curse.maven:origins-forge-474438:5314165")
 }
 
 tasks.withType(JavaCompile) {

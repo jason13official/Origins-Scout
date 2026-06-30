@@ -15,7 +15,7 @@ public class OriginsScoutForge {
     OriginsScout.preInit();
   }
 
-  @Deprecated
+  @Deprecated @SuppressWarnings("all")
   public OriginsScoutForge() {
     this(FMLJavaModLoadingContext.get());
   }
