@@ -16,5 +16,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'MultiLoader'
+rootProject.name = '1.19.2'
 include("Common", "Fabric", "Forge")
