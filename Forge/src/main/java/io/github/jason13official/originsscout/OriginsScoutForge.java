@@ -132,7 +132,10 @@ public class OriginsScoutForge {
   }
 
   private Optional<ResourceKey<Origin>> getPlayerOrigin(ServerPlayer player) {
+    // hasOrigin() is false while the player still holds Origin.EMPTY (pre-selection default) —
+    // treat that the same as "no origin" so we don't create/grant "empty_N" advancements.
     return IOriginContainer.get(player)
+        .filter(c -> c.hasOrigin(ORIGIN_LAYER_KEY))
         .map(c -> c.getOrigin(ORIGIN_LAYER_KEY))
         .filter(Objects::nonNull);
   }
