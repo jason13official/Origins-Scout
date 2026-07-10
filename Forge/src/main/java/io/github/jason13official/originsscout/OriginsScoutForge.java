@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,6 +36,9 @@ public class OriginsScoutForge {
   // Advancement uses object identity for map keys in PlayerAdvancements — must reuse same instances
   private static final Map<ResourceLocation, Advancement> advancementCache = new ConcurrentHashMap<>();
   private static final Map<ResourceLocation, Integer> originCounts = new ConcurrentHashMap<>();
+  // Tracks each online player's last-observed origin — Origins fires no event when a player
+  // selects/changes origin, so we diff against this every tick to detect it ourselves.
+  private static final Map<UUID, ResourceKey<Origin>> knownOrigin = new ConcurrentHashMap<>();
 
   private static final ResourceKey<OriginLayer> ORIGIN_LAYER_KEY =
       ResourceKey.create(OriginsDynamicRegistries.LAYERS_REGISTRY,
@@ -63,20 +67,29 @@ public class OriginsScoutForge {
     MinecraftForge.EVENT_BUS.addListener((Consumer<ServerStartingEvent>) event -> {
       advancementCache.clear();
       originCounts.clear();
+      knownOrigin.clear();
     });
 
-    MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerLoggedInEvent>) event -> {
-      if (!(event.getEntity() instanceof ServerPlayer player)) return;
+    // No event exists for "player selected/changed origin" — detect the transition ourselves.
+    MinecraftForge.EVENT_BUS.addListener((Consumer<TickEvent.PlayerTickEvent>) event -> {
+      if (event.phase != TickEvent.Phase.END) return;
+      if (!(event.player instanceof ServerPlayer player)) return;
       MinecraftServer server = player.getServer();
       if (server == null) return;
 
-      getPlayerOrigin(player).ifPresent(origin -> {
-        ResourceLocation originLoc = origin.location();
-        int newCount = originCounts.merge(originLoc, 1, Integer::sum);
-        for (ServerPlayer peer : getPlayersWithOrigin(server, origin, null)) {
-          grant(peer, server, originLoc.getPath(), newCount);
-        }
-      });
+      ResourceKey<Origin> current = getPlayerOrigin(player).orElse(null);
+      ResourceKey<Origin> known = knownOrigin.get(player.getUUID());
+      if (Objects.equals(current, known)) return;
+
+      if (known != null) {
+        onOriginLost(player, server, known);
+      }
+      if (current != null) {
+        onOriginGained(player, server, current);
+        knownOrigin.put(player.getUUID(), current);
+      } else {
+        knownOrigin.remove(player.getUUID());
+      }
     });
 
     MinecraftForge.EVENT_BUS.addListener((Consumer<PlayerLoggedOutEvent>) event -> {
@@ -84,25 +97,38 @@ public class OriginsScoutForge {
       MinecraftServer server = player.getServer();
       if (server == null) return;
 
-      getPlayerOrigin(player).ifPresent(origin -> {
-        ResourceLocation originLoc = origin.location();
-        int oldCount = originCounts.getOrDefault(originLoc, 1);
-        int newCount = Math.max(0, oldCount - 1);
-        if (newCount == 0) {
-          originCounts.remove(originLoc);
-        } else {
-          originCounts.put(originLoc, newCount);
-        }
-
-        for (int i = 1; i <= oldCount; i++) {
-          revoke(player, server, originLoc.getPath(), i);
-        }
-
-        for (ServerPlayer peer : getPlayersWithOrigin(server, origin, player)) {
-          revoke(peer, server, originLoc.getPath(), oldCount);
-        }
-      });
+      ResourceKey<Origin> origin = knownOrigin.remove(player.getUUID());
+      if (origin != null) {
+        onOriginLost(player, server, origin);
+      }
     });
+  }
+
+  private void onOriginGained(ServerPlayer player, MinecraftServer server, ResourceKey<Origin> origin) {
+    ResourceLocation originLoc = origin.location();
+    int newCount = originCounts.merge(originLoc, 1, Integer::sum);
+    for (ServerPlayer peer : getPlayersWithOrigin(server, origin, null)) {
+      grant(peer, server, originLoc.getPath(), newCount);
+    }
+  }
+
+  private void onOriginLost(ServerPlayer player, MinecraftServer server, ResourceKey<Origin> origin) {
+    ResourceLocation originLoc = origin.location();
+    int oldCount = originCounts.getOrDefault(originLoc, 1);
+    int newCount = Math.max(0, oldCount - 1);
+    if (newCount == 0) {
+      originCounts.remove(originLoc);
+    } else {
+      originCounts.put(originLoc, newCount);
+    }
+
+    for (int i = 1; i <= oldCount; i++) {
+      revoke(player, server, originLoc.getPath(), i);
+    }
+
+    for (ServerPlayer peer : getPlayersWithOrigin(server, origin, player)) {
+      revoke(peer, server, originLoc.getPath(), oldCount);
+    }
   }
 
   private Optional<ResourceKey<Origin>> getPlayerOrigin(ServerPlayer player) {

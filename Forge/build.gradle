@@ -1,3 +1,10 @@
+import proguard.gradle.ProGuardTask
+
+buildscript {
+    repositories { mavenCentral() }
+    dependencies { classpath 'com.guardsquare:proguard-gradle:7.9.1' }
+}
+
 plugins {
     id 'eclipse'
     id 'idea'
@@ -94,6 +101,23 @@ processResources {
     from project(":Common").sourceSets.main.resources
 }
 
+tasks.register('proguardJar', ProGuardTask) {
+    dependsOn jar
+
+    injars(tasks.named('jar').flatMap { it.archiveFile })
+
+    // Java runtime
+    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod",
+            jarfilter: '!**.jar', filter: '!module-info.class'
+
+    // Minecraft, Forge, Origins — all are libraries (not obfuscated)
+    configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.each {
+        libraryjars it.file
+    }
+
+    configuration file('proguard.pro')
+    outjars(layout.buildDirectory.file("libs/${project.name}-${version}-obf.jar"))
+}
 
 jar.finalizedBy('reobfJar')
 
